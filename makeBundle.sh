@@ -1,7 +1,8 @@
 #!/bin/bash
 
 APP_NAME="Flacon"
-VERSION=3.1.1
+VERSION=3.99.0
+
 
 SRC_DIR=~/myPrograms/flacon/macos
 ICONSET_DIR=${SRC_DIR}/images/mainicon/flacon.iconset
@@ -49,7 +50,7 @@ done
 # Translations .......................................
 install -m 644 ${BUILD_DIR}/flacon_*.qm                  ${BUNDLE_TRANSLATIONS_DIR}/
 install -m 644 ${QT_DIR}/translations/*.qm            ${BUNDLE_TRANSLATIONS_DIR}/
-
+#install -m 644 ${QT_DIR}/translations/*.qm            ${BUNDLE_TRANSLATIONS_DIR}/
 
 # Resources ..........................................
 install -m 644 ${BUILD_DIR}/flacon.1.gz ${BUNDLE_RESOURCES_DIR}
@@ -65,7 +66,7 @@ echo "*******************************************"
 echo "** Fix dylibs"
 
 for prog in ${THIRD_PARTY_PROGS}; do
-	./dylibbundler 	--overwrite-files \
+	./tools/dylibbundler 	--overwrite-files \
 					--bundle-deps \
 					--fix-file ${BUNDLE_BIN_DIR}/${prog} \
 					--dest-dir "${BUNDLE_LIB_DIR}" \
@@ -73,7 +74,6 @@ for prog in ${THIRD_PARTY_PROGS}; do
 done 
 
 macdeployqt  ${APP_NAME}.app -always-overwrite
-#macdeployqt  ${APP_NAME}.app -always-overwrite -dmg
 
 
 echo "*******************************************"
