@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_NAME="Flacon"
-VERSION=3.99.0
+VERSION=`/usr/libexec/PlistBuddy -c "print :CFBundleVersion" ${APP_NAME}.app/Contents/Info.plist`
 
 
 DMG_NAME=${APP_NAME}_${VERSION}.dmg

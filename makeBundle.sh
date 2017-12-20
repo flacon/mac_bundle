@@ -1,7 +1,6 @@
 #!/bin/bash
 
 APP_NAME="Flacon"
-VERSION=3.99.0
 
 
 SRC_DIR=~/myPrograms/flacon/macos
@@ -28,10 +27,12 @@ rm -rf ${APP_NAME}.app
 (
     install -d ${BUILD_DIR}
     cd ${BUILD_DIR} 
-    cmake -DMAC_BUNDLE=Yes ${SRC_DIR} 
+    cmake 	-DMAC_BUNDLE=Yes ${SRC_DIR} \
+    		-DCMAKE_OSX_DEPLOYMENT_TARGET="10.10.1"
     make -j8 && echo "make is OK"
 )
 
+VERSION=`/usr/libexec/PlistBuddy -c "print :CFBundleVersion" ${BUILD_DIR}/Info.plist`
 
 install -d ${APP_NAME}.app
 install -d ${BUNDLE_BIN_DIR}
