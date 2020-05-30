@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Ver 0.2
+
 #dirname $0
 #echo $0
 #dirname $BASH_SOURCE
@@ -148,7 +150,10 @@ DIR=$(mktemp -d /tmp/boomaga_pkg.XXXXXX)
 build "${DIR}"
 rm -rf ${DIR}
 
-[[ $MAKE_DMG = "Yes" ]] && 	. makeDMG.sh
-
+#[[ $MAKE_DMG = "Yes" ]] && 	. makeDMG.sh
+if [[ $MAKE_DMG = "Yes" ]]; then
+	VERSION=`/usr/libexec/PlistBuddy -c "print :CFBundleVersion" ${APP_NAME}.app/Contents/Info.plist`
+	dmgbuild -s dmg_settings.py "$APP_NAME" "${APP_NAME}_${VERSION}"
+fi
 
 exit 0
