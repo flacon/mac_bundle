@@ -1,12 +1,6 @@
 #!/bin/bash
 
-# Ver 0.2
-
-#dirname $0
-#echo $0
-#dirname $BASH_SOURCE
-#pwd
-#exit 0
+# Ver 0.4
 
 set -e
 
@@ -41,19 +35,32 @@ BUNDLE_BIN_DIR="${APP_NAME}.app/Contents/MacOS"
 BUNDLE_LIB_DIR="${APP_NAME}.app/Contents/Frameworks"
 BUNDLE_RESOURCES_DIR="${APP_NAME}.app/Contents/Resources"
 BUNDLE_TRANSLATIONS_DIR="${BUNDLE_CONTENTS_DIR}/translations"
+PATH=${PATH}:${QT_DIR}/bin
 #=========================================
-#set -e
 
 function error() {
 	echo "Error: $1"
 	exit ${2:-10}
 }
 
+function checkMinMacOSVer() {
+	mac=$(printf  "%05d%05d%05d" $(sw_vers -productVersion | tr '.' ' '))
+	need=$(printf "%05d%05d%05d" $(echo $1 | tr '.' ' '))
+	[[ $mac -ge $need ]] || return 1
+}
 
-function build() (
+function createAppDirs {
+	rm -rf ${APP_NAME}.app
+	install -d ${APP_NAME}.app
+	install -d ${BUNDLE_BIN_DIR}
+	install -d ${BUNDLE_LIB_DIR}
+	install -d ${BUNDLE_RESOURCES_DIR}
+	install -d ${BUNDLE_TRANSLATIONS_DIR}
+}
+
+
+function build() {
 	DIR=$1
-
-	#set -e
 
 	if [[ -f $SOURCE ]]; then
 		SRC_DIR=${DIR}
@@ -67,8 +74,6 @@ function build() (
 	BUILD_DIR=${DIR}/build
 	install -d  ${BUILD_DIR}
 
-
-	PATH=${PATH}:${QT_DIR}/bin
 	 
 	CUR_DIR=`pwd`
 
@@ -81,27 +86,24 @@ function build() (
 
 	    make -j8 && make install && echo "make is OK"
 	)
+}
 
 
-	install -d ${APP_NAME}.app
-	install -d ${BUNDLE_BIN_DIR}
-	install -d ${BUNDLE_LIB_DIR}
-	install -d ${BUNDLE_RESOURCES_DIR}
-	install -d ${BUNDLE_TRANSLATIONS_DIR}
-
-
+function addPrograms() {
 	# Executable files ...................................
 	for prog in ${THIRD_PARTY_PROGS}; do
 		install -m 755 /usr/local/bin/${prog} ${BUNDLE_BIN_DIR}
 	done
+}
 
 
+function fixDylibs() {
 	echo "** Fix dylibs"
 
 	install_name_tool \
 			-change                     @rpath/Sparkle.framework/Versions/A/Sparkle \
 		        @executable_path/../Frameworks/Sparkle.framework/Versions/A/Sparkle \
-				Flacon.app/Contents/MacOS/flacon
+				Flacon.app/Contents/MacOS/Flacon
 
 	cp -PR ~/Library/Frameworks/Sparkle.framework "${BUNDLE_LIB_DIR}"
 
@@ -116,6 +118,7 @@ function build() (
 
 	macdeployqt  ${APP_NAME}.app -always-overwrite
 
+
 	# Checks
 	err=""
 	for f in flacon ${THIRD_PARTY_PROGS}; do
@@ -128,32 +131,49 @@ function build() (
 	done
 
 	[ "$err" = "" ] || exit 10
+}
 
 
+function sign() {
 	################################################
 	# Sign
 
 	echo "** Sign files"
-
 	codesign --force --deep --verify  --sign "${CERT_IDENTITY}" ${APP_NAME}.app || error "codesign is failed"
 
 	echo "** Checks"
-	codesign -v --strict --deep --verbose=1 ${APP_NAME}.app || error "codesign check is failed"
+	if checkMinMacOSVer "10.11.0"; then
+		codesign -v --strict --deep --verbose=1 ${APP_NAME}.app || error "codesign check is failed"
+	else
+		# Old versions of codesign don't support --strict option
+		codesign -v --deep --verbose=1 ${APP_NAME}.app
+	fi
+	
 	spctl --assess --type execute ${APP_NAME}.app || error "spctl check is failed"
-)
+}
 
+
+function makeDmg() {
+	if [[ $MAKE_DMG = "Yes" ]]; then
+		echo "** Make DMG image"
+		VERSION=`/usr/libexec/PlistBuddy -c "print :CFBundleVersion" ${APP_NAME}.app/Contents/Info.plist`
+		DMG_NAME=${DMG_PATTERN:=\{APP_NAME\}}
+		DMG_NAME=${DMG_NAME/\{APP_NAME\}/${APP_NAME}}
+		DMG_NAME=${DMG_NAME/\{VERSION\}/${VERSION}}
+		dmgbuild -s dmg_settings.py "$APP_NAME" "${DMG_NAME}"
+	fi
+}
 
 PATH=${PATH}:$(dirname "$BASH_SOURCE")
 
-rm -rf ${APP_NAME}.app
-DIR=$(mktemp -d /tmp/boomaga_pkg.XXXXXX)
-build "${DIR}"
-rm -rf ${DIR}
 
-#[[ $MAKE_DMG = "Yes" ]] && 	. makeDMG.sh
-if [[ $MAKE_DMG = "Yes" ]]; then
-	VERSION=`/usr/libexec/PlistBuddy -c "print :CFBundleVersion" ${APP_NAME}.app/Contents/Info.plist`
-	dmgbuild -s dmg_settings.py "$APP_NAME" "${APP_NAME}_${VERSION}"
-fi
+TMP_BUILD_DIR=$(mktemp -d /tmp/boomaga_pkg.XXXXXX)
 
-exit 0
+createAppDirs
+build "${TMP_BUILD_DIR}"
+addPrograms
+fixDylibs
+sign
+makeDmg
+
+rm -rf ${TMP_BUILD_DIR}
