@@ -156,11 +156,13 @@ function sign() {
 function makeDmg() {
 	if [[ $MAKE_DMG = "Yes" ]]; then
 		echo "** Make DMG image"
+
+		dir=$( dirname "${BASH_SOURCE[0]}" )
 		VERSION=`/usr/libexec/PlistBuddy -c "print :CFBundleVersion" ${APP_NAME}.app/Contents/Info.plist`
 		DMG_NAME=${DMG_PATTERN:=\{APP_NAME\}}
 		DMG_NAME=${DMG_NAME/\{APP_NAME\}/${APP_NAME}}
 		DMG_NAME=${DMG_NAME/\{VERSION\}/${VERSION}}
-		dmgbuild -s dmg_settings.py "$APP_NAME" "${DMG_NAME}"
+		dmgbuild -s "$dir/dmg_settings.py" "$APP_NAME" "${DMG_NAME}"
 	fi
 }
 
