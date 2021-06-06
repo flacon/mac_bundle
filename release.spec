@@ -2,7 +2,7 @@
 
 APP_NAME="Flacon"
 
-SOURCE=flacon-6.1.0.tar.gz
+SOURCE=flacon-7.0.1.tar.gz
 
 THIRD_PARTY_PROGS="faac flac lame mac metaflac mp3gain oggenc opusenc sox ttaenc vorbisgain wavpack wvgain wvunpack"
 
