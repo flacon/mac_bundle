@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtCharts.framework/Headers
+
+
+Name: Qt5 Charts
+Description: Qt Charts module
+Version: 5.15.8
+Libs: -F${libdir} -framework QtCharts 
+Cflags: -DQT_CHARTS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Widgets
+

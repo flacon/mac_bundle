@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/Qt3DQuickExtras.framework/Headers
+
+
+Name: Qt5 3DQuickExtras
+Description: Qt 3DQuickExtras module
+Version: 5.15.8
+Libs: -F${libdir} -framework Qt3DQuickExtras 
+Cflags: -DQT_3DQUICKEXTRAS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Qml Qt53DCore Qt53DInput Qt53DQuick Qt53DRender Qt53DLogic Qt53DExtras
+

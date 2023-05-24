@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtPositioningQuick.framework/Headers
+
+
+Name: Qt5 PositioningQuick
+Description: Qt PositioningQuick module
+Version: 5.15.8
+Libs: -F${libdir} -framework QtPositioningQuick 
+Cflags: -DQT_POSITIONINGQUICK_LIB -I${includedir} -F${libdir}
+Requires: Qt5Quick Qt5Positioning Qt5Qml Qt5Core
+

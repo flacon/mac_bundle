@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtWebEngine.framework/Headers
+
+
+Name: Qt5 WebEngine
+Description: Qt WebEngine module
+Version: 5.15.11
+Libs: -F${libdir} -framework QtWebEngine 
+Cflags: -DQT_WEBENGINE_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Qml Qt5Quick Qt5WebEngineCore
+

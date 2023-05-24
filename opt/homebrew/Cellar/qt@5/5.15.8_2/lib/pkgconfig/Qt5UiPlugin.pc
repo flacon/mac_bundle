@@ -1,0 +1,12 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtUiPlugin.framework/Headers
+
+
+Name: Qt5 UiPlugin
+Description: Qt UiPlugin module
+Version: 5.15.8
+Cflags: -DQT_UIPLUGIN_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Widgets
+

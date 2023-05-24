@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtWebChannel.framework/Headers
+
+
+Name: Qt5 WebChannel
+Description: Qt WebChannel module
+Version: 5.15.8
+Libs: -F${libdir} -framework QtWebChannel 
+Cflags: -DQT_WEBCHANNEL_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Qml
+

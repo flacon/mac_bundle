@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtQuickControls2.framework/Headers
+
+
+Name: Qt5 QuickControls2
+Description: Qt QuickControls2 module
+Version: 5.15.8
+Libs: -F${libdir} -framework QtQuickControls2 
+Cflags: -DQT_QUICKCONTROLS2_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Quick
+

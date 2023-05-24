@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtPdfWidgets.framework/Headers
+
+
+Name: Qt5 PdfWidgets
+Description: Qt PdfWidgets module
+Version: 5.15.11
+Libs: -F${libdir} -framework QtPdfWidgets 
+Cflags: -DQT_PDFWIDGETS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Widgets Qt5Pdf
+

@@ -1,0 +1,15 @@
+QT.quick3d.VERSION = 5.15.8
+QT.quick3d.name = QtQuick3D
+QT.quick3d.module = QtQuick3D
+QT.quick3d.libs = $$QT_MODULE_LIB_BASE
+QT.quick3d.includes = $$QT_MODULE_LIB_BASE/QtQuick3D.framework/Headers
+QT.quick3d.frameworks = $$QT_MODULE_LIB_BASE
+QT.quick3d.bins = $$QT_MODULE_BIN_BASE
+QT.quick3d.depends = core gui quick3druntimerender quick qml
+QT.quick3d.uses =
+QT.quick3d.module_config = v2 lib_bundle
+QT.quick3d.DEFINES = QT_QUICK3D_LIB
+QT.quick3d.enabled_features =
+QT.quick3d.disabled_features =
+QT_CONFIG +=
+QT_MODULES += quick3d

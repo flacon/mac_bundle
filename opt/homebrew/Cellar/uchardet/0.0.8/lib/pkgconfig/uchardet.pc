@@ -1,0 +1,10 @@
+libdir=/opt/homebrew/Cellar/uchardet/0.0.8/lib
+includedir=/opt/homebrew/Cellar/uchardet/0.0.8/include
+
+Name: uchardet
+Description: An encoding detector library ported from Mozilla
+Version: 0.0.8
+Requires:
+Libs: -L${libdir} -luchardet
+Libs.private: -lstdc++
+Cflags: -I${includedir}/uchardet

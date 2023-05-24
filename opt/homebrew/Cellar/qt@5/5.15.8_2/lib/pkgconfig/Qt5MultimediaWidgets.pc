@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtMultimediaWidgets.framework/Headers
+
+
+Name: Qt5 MultimediaWidgets
+Description: Qt MultimediaWidgets module
+Version: 5.15.8
+Libs: -F${libdir} -framework QtMultimediaWidgets 
+Cflags: -DQT_MULTIMEDIAWIDGETS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Multimedia Qt5Widgets
+

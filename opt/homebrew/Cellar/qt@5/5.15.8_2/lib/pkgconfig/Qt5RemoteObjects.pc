@@ -1,0 +1,13 @@
+prefix=/opt/homebrew/Cellar/qt@5/5.15.8_2
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtRemoteObjects.framework/Headers
+
+
+Name: Qt5 RemoteObjects
+Description: Qt RemoteObjects module
+Version: 5.15.8
+Libs: -F${libdir} -framework QtRemoteObjects 
+Cflags: -DQT_REMOTEOBJECTS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Network
+

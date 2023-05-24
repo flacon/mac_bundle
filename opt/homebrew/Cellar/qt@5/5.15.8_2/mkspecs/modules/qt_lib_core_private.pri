@@ -1,0 +1,17 @@
+QT.core_private.VERSION = 5.15.8
+QT.core_private.name = QtCore
+QT.core_private.module =
+QT.core_private.libs = $$QT_MODULE_LIB_BASE
+QT.core_private.includes = $$QT_MODULE_LIB_BASE/QtCore.framework/Headers/5.15.8 $$QT_MODULE_LIB_BASE/QtCore.framework/Headers/5.15.8/QtCore
+QT.core_private.frameworks =
+QT.core_private.depends = core
+QT.core_private.uses =
+QT.core_private.module_config = v2 lib_bundle internal_module
+QT.core_private.enabled_features = clock-gettime datetimeparser doubleconversion futimens glib hijricalendar mimetype-database system-pcre2 poll_poll sha3-fast
+QT.core_private.disabled_features = etw futimes getauxval getentropy glibc gnu-libiconv icu posix-libiconv iconv inotify journald linkat lttng poll_ppoll poll_pollts poll_select renameat2 slog2 statx syslog system-doubleconversion
+QMAKE_INCDIR_GLIB = /opt/homebrew/Cellar/pcre2/10.42/include /opt/homebrew/Cellar/glib/2.74.5/include /opt/homebrew/Cellar/glib/2.74.5/include/glib-2.0 /opt/homebrew/Cellar/glib/2.74.5/lib/glib-2.0/include /opt/homebrew/opt/gettext/include
+QMAKE_INCDIR_PCRE2 = /opt/homebrew/Cellar/pcre2/10.42/include
+QMAKE_LIBS_LIBRT = 
+QMAKE_LIBS_GLIB = -L/opt/homebrew/Cellar/glib/2.74.5/lib -L/opt/homebrew/opt/gettext/lib -lgthread-2.0 -lglib-2.0 -lintl
+QMAKE_LIBS_PCRE2 = -L/opt/homebrew/Cellar/pcre2/10.42/lib -lpcre2-16
+QMAKE_LIBS_LIBATOMIC = 
